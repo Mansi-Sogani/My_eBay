@@ -1,0 +1,59 @@
+<!Doctype HTML>
+<html>
+<head>
+	<title> product detail </title>
+	<link rel='stylesheet' href='/stylesheets/individualproduct.css' />
+	<link rel='stylesheet' href='/stylesheets/homepage.css' />
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./javascripts/jquery.js"></script>
+</head>
+<body>	
+<header><% include ./partials/header %></header>
+	<div class="container-fluid">
+	<h1> Product Details </h1>
+    <div class="content-wrapper">	
+		<div class="item-container">	
+			<div class="container">	
+				<div class="col-md-12">
+					<div class="product col-md-3 service-image-left">                    
+						<center>
+							<img id="item-display" src="/images/womenfashion.png" alt=""></img>
+						</center>
+					</div>
+					<div class="container service1-items col-sm-2 col-md-2 pull-left">
+						<center>
+							<a id="item-1" class="service1-item">
+								<img src="/images/womenfashion.png" alt=""></img>
+							</a>
+							<a id="item-2" class="service1-item">
+								<img src="/images/womenfashion.png" alt=""></img>
+							</a>
+							<a id="item-3" class="service1-item">
+								<img src="/images/womenfashion.png" alt=""></img>
+							</a>
+						</center>
+					</div>
+				
+				<form method= "post" action="/addproducttocart">	
+				<div class="col-md-7">
+					<div class="product-title"><%= product[0].productname %></div>
+					<div class="product-desc"><%= product[0].productdescription %> </div>
+					<div class="product-rating"><i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star gold"></i> <i class="fa fa-star-o"></i> </div>
+					<hr>
+					<div class="product-price">$<%= product[0].productprice%></div>
+					<div class="product-stock"><%= product[0].productquantity>0 ? 'In Stock' : 'Out Of Stock' %><br></div>
+					<hr>
+					<div class="btn-group cart">
+						<button type="submit" class="btn btn-success">	Add to cart </button>
+					</div>
+				</div>
+				</div>
+			</div> 
+		</div>
+		</div> 
+		</div>
+	</body>
+</html>

@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>All Products</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container"
+	<br><h1 align="center"> Electronics!</h1><br>
+	<div class="row">
+	
+	<% if(productlist.length){ 
+                 for(var i = 0;i < productlist.length;i++) { %> 
+                  <form method= "post" action="/addproducttocart">
+                 <div class="col-sm-4" align="center">
+    			<div class="product-chooser-item align="center"">
+    			<img src="http://renswijnmalen.nl/bootstrap/desktop_mobile.png" class="img-rounded" alt="Mobile and Desktop">
+      				<h2><a href = "/findone"><%=productlist[i].productname%></a><br></h2>
+    				<%=productlist[i].productdescription%><br>    				
+    				<%= productlist[i].productquantity>0 ? 'In Stock' : 'Out Of Stock' %><br>
+    				$<%=productlist[i].productprice%><br>	
+    				<input type="hidden" name="productid" value = "<%=productlist[i].productid%>" />
+    				<button type="submit">Add to Cart</button><br><br>
+    			</div>
+    		</div>
+    		 <% }            
+             }else{ %>
+                 <tr>
+                    <td colspan="3">No Product</td>
+                 </tr>
+            <% } %> 
+    	
+    	</div>
+  </div>
+  </body>
+  </html>
+  
+  
+  
+  
+  

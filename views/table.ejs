@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>All Products</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Striped Rows</h2>
+  <p>All Products</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th width="50px">No</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th width="120px">Action</th>
+      </tr>
+    </thead>
+    <% if(productlist.length){ 
+                 for(var i = 0;i < productlist.length;i++) { %> 
+    <tbody>
+      <tr>
+        			<td><%=(i+1)%></td>
+                    <td><a href = "/findone"><%=productlist[i].productname%></td>
+                    <td><%=productlist[i].productdescription%></td>
+                    <td><%=productlist[i].productprice%></td>
+                    <td><%=productlist[i].productquantity%></td>
+                    <td>                      
+                        <a class="a-inside delete" href="/delete/<%=productlist[i].productname%>">Delete</a>                       
+                    </td>
+      </tr>
+    </tbody>
+    <% }            
+             }else{ %>
+                 <tr>
+                    <td colspan="3">No user</td>
+                 </tr>
+            <% } %>  
+  </table>
+  <br><br><div class="data-btn">
+           <button><a href = "/saveproduct"> Add Product</a></button>
+         </div>
+</div>
+</body>
+</html>

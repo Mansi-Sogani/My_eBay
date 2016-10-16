@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>All Products</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<header><% include ./partials/header %></header>
+<div class="container"><hr>
+	<br><h1 align="left">The Women Fashion</h1><br>
+	<div class="row">
+	<% if(productlist.length){ 
+                 for(var i = 0;i < productlist.length;i++) { %> 
+                 <form method= "post" action="/addproducttocart">
+                 <div class="col-sm-4" align="center">
+    			<div class="product-chooser-item align="center">
+    			<img src="images/womenfashion.png" height= 250px weight= 150px class="img-rounded" alt="Mobile and Desktop">
+      				<h2><a href = "/findone/<%=productlist[i].productname%>"><%=productlist[i].productname%></a><br></h2>
+    				<%=productlist[i].productdescription%><br>    				
+    				<%= productlist[i].productquantity>0 ? 'In Stock' : 'Out Of Stock' %><br>
+    				<input type="hidden" name="productprice" value = "<%=productlist[i].productprice%>" />
+    				<input type="hidden" name="productid" value = "<%=productlist[i].productid%>" />
+    				<input type="hidden" name="productname" value = "<%=productlist[i].productname%>" />
+    				<input type="hidden" name="productdescription" value = "<%=productlist[i].productdescription%>" />
+    				<input type="hidden" name="productquantity" value = "<%=productlist[i].productquantity%>" />
+    				$ <%=productlist[i].productprice%><br>
+    				<b>Seller: </b><%=productlist[i].email%><br>
+    				<b>Item ID: </b><%=productlist[i].productid%><br>
+    				<button type="submit" style="background-color: #4CAF50">Add to Cart</button><br><br><br><br>
+    			</div>
+    		</div>
+    		</form>
+    		 <% }            
+             }else{ %>
+                 <tr>
+                    <td colspan="3">No Product</td>
+                 </tr>
+            <% } %>     	
+    	</div>
+  </div>
+  </body>
+  </html>

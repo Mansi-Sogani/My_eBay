@@ -1,0 +1,149 @@
+body {
+  background: url(https://securepics.ebaystatic.com/aw/pics/cmp/ds3/imgbg.jpg) repeat 0 0 #f8f8f8;
+  color: #333;
+  font-family: "Helvetica neue",Helvetica,Arial,Sans-serif;
+  font-size: 14px;
+  line-height: 1;
+}
+
+a {
+  color: #00B7FF;
+  width: 200px;
+}
+
+.container{
+  margin-top: 120px;
+}
+
+.nav-tabs {
+  margin: 0;
+  padding: 0;
+  border:0;
+  text-align:center;
+}
+.nav-tabs > li > a {
+
+  border-radius: 0;
+  box-shadow: inset 0 -8px 7px -9px rgba(0,0,0,.4),-2px -2px 5px -2px rgba(0,0,0,.4);
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover {
+
+  box-shadow: inset 0 0 0 0 rgba(0,0,0,.4),-2px -3px 5px -2px rgba(0,0,0,.4);
+}
+.tab-pane {
+  background: white;
+  box-shadow: 0 0 4px rgba(0,0,0,.4);
+  border-radius: 0;
+  text-align: center;
+  padding: 10px;
+  width: 401px;
+  margin-left: 2px;
+}
+.text{
+  font-size:20px;
+}
+input[type =password],input[type=text] {
+  border: 1px solid #ddd;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(255,255,255,.8),inset 0 1px 2px rgba(0,0,0,.06);
+}
+input[type=submit]
+{
+  margin-right: 15px;
+}
+.input{
+
+  width: 91.75%;
+  height: 35px;
+  font-size: 16px;
+  color: #333;
+  padding: 2px 0 0 3%;
+  line-height: 35px\9;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 25px;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+.btn{
+  background: #0079bc;
+  text-shadow:0px 0px 1px #fff;
+  color: #fff;
+  font-size: 16px !important;
+  cursor: pointer;
+  zoom: 1;
+  display: inline-block;
+  border-radius: 3px;
+  margin-top: 2px;
+}
+.btn:hover{
+  color: #fff !important;
+}
+.signimg{
+  background: url(https://securepics.ebaystatic.com/aw/pics/register/sprSignIn3.png)!important;
+
+}
+
+.registerimg{
+  background-image: url(https://securepics.ebaystatic.com/aw/pics/register/sprSignIn3.png) !important;
+}
+.pl{
+  background-position: 0px -75px !important;
+}
+.sp{
+  display: inline-block!important;
+  background-repeat: no-repeat;
+  width: 30px;
+  position: relative;
+  height: 30px;
+  left: 1%;
+  bottom: 0px;
+}
+.ar{
+  background-position: -65px -75px !important;
+}
+
+.cbn {
+  background-position: -325px -144px;
+}
+
+.spr {
+  display: block;
+  background-image: url(https://securepics.ebaystatic.com/aw/pics/register/sprSignIn3.png)!important;
+
+}
+.cb {
+  clear: left;
+  cursor: pointer;
+  float: left;
+  height: 22px;
+  width: 22px;
+  margin-left: 20px;
+  margin-top: 15px;
+}
+label{
+  margin-left: -249px;
+  font-size: 12px;
+  font-weight: 400 !important;
+  margin-top: 17px;
+
+}
+
+.smalltext {
+  line-height: 15px;
+  font-size: 12px;
+  font-family: 'Helvetica neue',Helvetica,Arial,sans-serif;
+}
+.agreementSpacing {
+  line-height: 17px!important;
+}
+.agsp {
+  color: #555;
+  font-size: 12px;
+  padding: 10px 0;
+}
+.agsp {
+  padding: 10px 0!important;
+}

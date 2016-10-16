@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Ebay </title>
+    <link rel='stylesheet' href='/stylesheets/signin.css' />
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    
+   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+    <script src="angularjs/login.js"></script>
+  </head>
+  <body ng-app="mylogin" ng-controller="login">
+    <img src="https://secureir.ebaystatic.com/rs/v/fxxj3ttftm5ltcqnto1o4baovyl.png" width="250"
+      height="200" style= "clip:rect(47px, 118px, 95px, 0px); position:absolute; top:5px;left:620px" id="logo">
+      <div  class="container">
+          <ul class="nav nav-tabs" role="tablist" style="border-bottom: 0px;margin-left: 335px;">
+            <li class="active">
+              <a href="#signin" role="tab" data-toggle="tab" class="text">
+               <img src = "data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==" class="signimg pl sp" />
+               Sign in
+              </a>
+            </li>
+            <li>
+              <a href="#register" role="tab" data-toggle="tab" class="text">
+                <img src = "data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==" class="registerimg ar sp" />
+                Register</a>
+            </li>
+            </ul>
+          <div class="tab-content">
+          
+              <div class="tab-pane fade active in" id="signin" style="margin-left: 335px; height: 300px;">
+                <form>
+                <span>
+                  <input type="email" placeholder="Email or username" name="email" maxlength="64" ng-model="username" class="input"/>
+                </span>
+                <span>
+                  <input type="password" placeholder="Password" name="password" ng-model="password" class="input"/>
+                </span>
+                <div class="alert alert-danger" ng-hide="invalid_login">
+						<strong>Incorrect username or password</strong>
+					</div>
+					<div class="alert alert-danger" ng-hide="unexpected_error">
+						<strong>Unexpected error, try again</strong>
+					</div>
+                <span>
+                  <input type="submit" value="Sign In"  ng-click ="submit()" class="input btn "/>
+                </span>
+                <span>
+                  <span class="cb spr kms cbn" role = "checkbox" title="Stay signed in" aria-checked="true" ></span>
+                  <label>Stay signed in</label>
+                </span>
+		  		</form>
+              </div>
+			
+			
+              <div class="tab-pane fade" id="register" style="margin-left: 335px; height: 450px;">
+              <form>
+                <span>
+                  <input type="email" placeholder="Email" maxlength="64" name="email" ng-model="email1" class="input"/>
+                </span>
+                <span>
+                  <input type="email" placeholder="Reenter email"  class="input"/>
+                </span>
+                 <span>
+                  <input type="password" placeholder="Password" name="password" ng-model="password1" maxlength="64" class="input"/>
+                </span>
+                <span>
+                  <input type="text" placeholder="First Name" name="firstname" ng-model="firstname" class="input" style = "width: 44%">
+                  <input type="text" placeholder="Last Name" name="lastname" ng-model="lastname" class="input" style = "width: 44%;
+                  margin-top: -60px;margin-left: 200px"/>
+                </span>
+                <span>
+                  <input type="tel" placeholder="Mobile phone" name="mobile" ng-model="mobile" class="input"/>
+                </span>
+                <div class="alert alert-danger" ng-hide="error_register">
+						<strong>User Exists</strong>
+					</div>
+					<div class="alert alert-success" ng-hide="success_register">
+						<strong>User Registered</strong>
+					</div>
+                 <div class="agreementSpacing agsp smalltext" style="margin-top: -18px">
+                   <span style="margin-left: 1px"> By <b>Registering</b>,
+                     you agree that you've read and accepted</span>
+                   <a href="#">User Agreement</a>, you're at least 18 years old, and you consent to our
+                   <a href="#"><span style="margin-left: 10px">Privacy Notice</span></a>
+                   and receiving marketing communications from us.
+                 </div>
+                  <span>
+                  <input type="submit" value="Register" ng-click="register()" class="input btn "/>
+                 </span>
+                   </form>
+              </div>
+            
+          </div>
+        </div>
+  </body>
+</html>

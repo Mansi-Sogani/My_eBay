@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+      <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel='stylesheet' href='/stylesheets/homepage.css' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+<header><% include ./partials/header %></header>
+<div class="container"><br><br>
+	<div class="row">
+        <div class="col-sm-12">
+            <legend>ADD PRODUCT FOR BIDDING:</legend>
+        </div>
+        <!-- panel preview -->
+        <div class="col-sm-7">
+            <form action = '/savetobidproduct' method = 'post'>
+            <div class="panel panel-default">
+                <div class="panel-body form-horizontal payment-form">
+                    <div class="form-group">
+                        <label for="productid" class="col-sm-3 control-label">Product ID</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="productid" name="productid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productname" class="col-sm-3 control-label">Product Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="productname" name="productname">
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label for="description" class="col-sm-3 control-label">Product Description</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="productdescription" name="productdescription">
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label for="productprice" class="col-sm-3 control-label">Product Price</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="productprice" name="productprice">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="category" class="col-sm-3 control-label">Category</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="category" name="category">
+                                <option></option>
+						    	<option>Women Fashion</option>
+						    	<option>Harvest Feast</option>
+						    	<option>Electronics</option>
+						    	<option>High Contrast Kicks</option>
+						    	<option>Autumn Ready Yard</option>
+						    	<option>A Hitchcock Halloween</option>
+						    	<option>At Home in History</option>
+						    	<option>Prepare for the Holidays</option>
+						    	<option>The Columbus Days Deals</option>
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            <button type="submit" class="btn btn-default preview-add-button">
+                                <span class="glyphicon glyphicon-plus"></span> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            </form>        
+        </div> <!-- / panel preview -->
+	</div>
+</div>
+
+
+
+  </body>
+</html>
+

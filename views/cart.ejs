@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> My eBay Account</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel='stylesheet' href='/stylesheets/homepage.css' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+  <script src="angularjs/cart.js"></script>
+  <style>
+  .wrapper{
+  	right: 50px;
+  	position: absolute;
+  }
+  </style>
+</head>
+<body ng-app="ebay" ng-controller="getcart">
+<header><% include ./partials/header %></header>
+	<div class="container"><hr>
+		<div class="row">
+    		<div class="col-md-12">
+      			<h1>Shopping Cart</h1><br><br>
+      		</div>
+    	</div>
+	</div>
+	<div id="wrapper" ng-init="getcartdata()">
+		<div class="container">
+			<div class="col-md-9">
+				<table id="cart" class="table table-hover table-condensed">
+    				<thead>
+						<tr>
+							<th style="width:50%">Product</th>
+							<th style="width:10%">Price</th>
+							<th style="width:8%">Quantity</th>
+							<th style="width:22%" class="text-center">Subtotal</th>
+							<th style="width:10%"></th>
+						</tr>
+					</thead>
+					<tbody ng-repeat="user in userlist" >
+					
+						<tr>
+							<td data-th="Product">
+								<div class="row">
+									 
+									<div class="col-sm-2 hidden-xs"><img src="/images/books.jpg" alt="..." class="img-responsive"/></div>
+									<div class="col-sm-10">
+										<h4 class="nomargin" ng-model="itemid">{{ user.itemid }}</h4>
+										<p>description goes here</p>
+									</div>
+								</div>
+							</td>
+							<td data-th="Price" ng-model ="price">{{ user.itemprice}}</td>
+							<td data-th="Quantity">
+								<input type="number" ng-model="number" min="1" max="{{user.itemquantity}}" ng-change="getvalues(user)" class="form-control text-center" value="1">
+							</td>
+							<td data-th="Subtotal" class="text-center" ng-model="subtotal">{{user.itemprice*number }}</td>
+							<td class="actions" data-th="">
+								<button class="btn btn-danger btn-md"  ng-click="removeitemfromcart(user)"><i class="fa fa-trash-o">Delete</i></button>								
+							</td>
+							
+						</tr>
+						
+						
+					</tbody>
+					<tfoot>
+						<tr class="visible-xs">
+							<td class="text-center" ><strong>Total 1.99</strong></td>
+						</tr>
+						<tr>
+							<td><a href="#" class="btn btn-primary"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+							<td colspan="2" class="hidden-xs"></td>
+							<td class="hidden-xs text-center" id="total">{{ total}}</td>
+							<td><a href="/checkout" class="btn btn-primary">Proceed to Checkout <i class="fa fa-angle-right"></i></a></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<div class="col-md-3">
+				<div class="panel panel-default">
+    				<div class="panel-heading"><h4><b>Cart Summary</b><h6><small>(items: )</small></h6></h4></div>
+    				<div class="panel-body" id="totals"><h4><b>Total Amount Payable: {{total}} </b></h4></div>
+    				<button type="button" class="btn btn-primary btn-md btn-block" ng-click='proceedtocheckout()'>Proceed to Checkout</button>
+  				</div>
+			</div>
+		</div>
+	</div>
+	</body>
+	</html>

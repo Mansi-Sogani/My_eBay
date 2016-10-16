@@ -1,0 +1,117 @@
+    /* Remove the navbar's default rounded borders and increase the bottom margin */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0px;
+      padding: 0;
+      height: 29px;
+    }
+     .nav li button{
+      padding:5px;
+      font-size: 1.2em;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+    .nav li {
+      padding:2px;
+      font-size: 0.8em;
+      padding-top: 0px;
+      margin-bottom: 0px
+      padding-bottom: 0px;
+      border-radius: 0px;
+    }
+    .nav ul {
+      padding-top: 0px;
+      height: 128px;
+      margin-bottom: 0px
+      padding-bottom: 0px;
+      border-radius: 0px;
+    } 
+    .nav navbar-nav{
+      padding: 0px;
+      margin-bottom: 0px;
+      height: 2px;
+    }
+    .navbar .divider-vertical {
+      height: 20px;
+      margin: px;
+      border-left: 1px solid;
+    }
+    .input-group > .form-control {
+      width: 100%;
+    }
+    .panel-group {
+      margin-bottom: 0px;
+      border-radius: 0;
+      background-color: null;
+    }   
+    .panel-heading {
+      cursor: pointer;
+    }
+    .panel-title a {
+    display: block;
+    padding: 0px;
+    margin: -10px -15px;
+    }
+    .panel-body{
+    }
+    /* Remove the jumbotron's default bottom margin */
+    .jumbotron {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    .dropbtn {
+      color: black;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+    .multi-column-dropdown{
+      min-width: 400px;
+    }
+   
+    .dropdown-content a {
+      color: black;
+      padding: 10px;
+      text-decoration: none;
+      display: block;
+    }
+    .dropdown-content a:hover {
+      background-color: #f1f1f1
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .carousel-indicators li {
+     visibility: hidden; 
+    }
+    .right.carousel-control, .left.carousel-control {
+     opacity: 0;
+     filter:alpha(opacity=0); /* IE support */
+    }
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img {
+      width:1150px;
+      height:600px;
+      margin: auto;
+    }
+    .container{
+    margin-bottom:-20px;
+    }
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }

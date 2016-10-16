@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <title>card details </title><meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+  <link rel='stylesheet' href='/stylesheets/homepage.css' />
+  
+  <script src="angularjs/cart.js"></script>
+  
+  <!--<style>
+    /* Padding - just for asthetics on Bootsnipp.com */
+//body { margin-top:20px; }
+
+/* CSS for Credit Card Payment form */
+.credit-card-box .panel-title {
+    display: inline;
+    font-weight: bold;
+}
+/*.credit-card-box .form-control.error {
+    border-color: #000;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(255,0,0,0.6);
+}
+.credit-card-box label.error {
+  font-weight: bold;
+  color: red;
+  padding: 2px 8px;
+  margin-top: 2px;
+}
+.credit-card-box .payment-errors {
+  font-weight: bold;
+  color: red;
+  padding: 2px 8px;
+  margin-top: 2px;
+}*/
+.credit-card-box label {
+    display: block;
+}
+/* The old "center div vertically" hack */
+.credit-card-box .display-table {
+    display: table;
+}
+.credit-card-box .display-tr {
+    display: table-row;
+}
+.credit-card-box .display-td {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+}
+/* Just looks nicer */
+.credit-card-box .panel-heading img {
+    min-width: 180px;
+}
+</style>-->
+<style>
+.colorgraph {
+  height: 5px;
+  border-top: 0;
+  background: #c4e17f;
+  border-radius: 5px;
+  background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+}
+</style>
+</head>
+<body ng-app="ebay" ng-controller="getcart">
+<header><% include ./partials/header %></header>
+<div class="container" ng-init="checkoutdisplay()">
+    <br> <br>
+    <div class="row">
+    	<h2>Pay with</h2>
+      <div class="col-md-9">
+          
+          <div class="well">
+            <div class="row">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                          <h4 class="panel-title">
+                            <input type="radio" name="group1" value="1" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Paypal
+                          </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                          <div class="panel-body">
+                          Pay with Paypal Credit  
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                          <h4 class="panel-title">
+                            <input type="radio" name="group1" value="2" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Paypal Credit
+                          </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                          <div class="panel-body">
+                            Pay with Paypal Credit
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+		                        <div class="panel-heading" role="tab" id="headingThree">
+		                          <h4 class="panel-title">
+		                            <input type="radio" ng-click="creditcarddetails()" name="group1" value="3" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Credit/Debit Card
+		                          </h4>
+		                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                          			<div class="panel-body" >
+                    								<div class="row"><!-- rowX -->
+                                      					<div class="col-md-1"></div>
+                                      						<div class="col-md-10">
+						                                         <form role="form">
+						                                      			<div ng-model="message" ng-show="message">{{msg}}</div>
+						                                      			<div class="row">
+						                                      				<div class="col-xs-6 col-sm-6 col-md-6">
+						                                      					<div class="form-group">
+						                                                              <input type="text" name="cardnumber" id="cardnumber" ng-model="cardnumber" class="form-control input-lg" placeholder="Card Number" tabindex="1">
+						                                      					</div>
+						                                      				</div>
+						                                      			</div>
+						                                      			<div class="row">
+						                                      				<div class="col-xs-6 col-sm-6 col-md-6">
+						                                      					<div class="form-group">
+						                                      						<input type="text" name="expirationdate" id="expirationdate" ng-model="date" class="form-control input-lg" placeholder="Expiration Date" tabindex="2">
+						                                      					</div>
+						                                      				</div>
+						                                      				<div class="col-xs-6 col-sm-6 col-md-6">
+						                                              			<div class="form-group">
+						                                              				<input type="password" name="securitycode" id="securitycode" ng-model="cvv" class="form-control input-lg" placeholder="Security Code" tabindex="3">
+						                                              			</div>
+						                                              		</div>
+						                                      			</div>	
+						                                      			<div class="row">
+						                                      				<div class="col-xs-6 col-sm-6 col-md-6">
+						                                      					<div class="form-group">
+						                                      						<input type="text" name="firstname" id="firstname" ng-model="firstname" class="form-control input-lg" placeholder="First Name" tabindex="5">
+						                                      					</div>
+						                                      				</div>
+						                                      				<div class="col-xs-6 col-sm-6 col-md-6">
+						                                      					<div class="form-group">
+						                                      						<input type="text" name="lastname" id="lastname"  ng-model="lastname" class="form-control input-lg" placeholder="Last Name" tabindex="6">
+						                                      					</div>
+						                                      				</div>
+						                                      			</div>
+						                                      			<br>
+						                                      			<br>
+						                                      			<div class="row">
+						                                      				<div class="col-md-6" ng-model="address">Billing address:<br>San Jose</div>
+						                                      				<div class="col-md-3"><button type="button" id="button1"  class="btn btn-primary btn-block btn-lg" tabindex="7">Done</button></div>
+						                                      				<div class="col-md-3"><a href="#" class="btn btn-success btn-block btn-lg">Cancel</a></div>
+						                                      			</div>
+						                                      	</form>
+                                      						</div>
+                                      					<div class="col-md-1"></div>
+                                    				</div><!--- end of rowX -->
+                                				</div><!-- of panel body 3rd -->
+                                              </div>
+                                             </div><!-- end of panel3 -->
+                                                </div>
+                                            </div><!-- of /row/well -->
+                                             </div>
+                                          </div><!-- of well -->
+                                         <div class="col-md-3">
+												<div class="panel panel-default">
+								    				<div class="panel-body"><h4><b>Order Summary</b></h4><br><hr>
+								    				<h4><b>Total: $466 </b></h4></div>
+								    				<a href="/transactioncomplete"><button type="button" class="btn btn-primary btn-lg btn-block">Confirm and Pay</button></a>
+								  				</div>
+										</div>
+      </div><!-- of row --> <br><br> 
+      			<div class="row" ng-repeat="item in items" >
+      			<div class="col-md-9">
+          			<div class="panel">
+    				      		<div class="row">
+				      			<div class="col-md-10"><h4> {{item.itemname}}</h4></div>
+				      			<div class="col-md-2" ><h4> ${{item.itemprice}}</h4></div>
+				      		</div>
+				      		<div class="row">
+						      		<div class="col-md-10"><h5>{{item.itemdescription}}</h5></div>
+						    </div>
+						 </div>
+					</div>
+				<div class="col-md-3"></div>
+     			</div>
+</div><!-- of div container -->
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#button1").click(function(){
+	console.log("I m in click function");
+	  number=$("#cardnumber").val();
+	date=$("#expirationdate").val();
+	cvv=$("#securitycode").val();
+    	
+        $.ajax({
+        url: "/addcarddetails",
+        method:"POST", 
+        data:{cardnumber:number,expirationdate:date,securitycode:cvv}, 
+        success: function(result){
+        console.log("I m in success of ajax");
+	       alert(result.msg);
+	        }
+        });
+    });
+});
+</script>
+</body>
+</html>

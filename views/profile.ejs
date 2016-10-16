@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> My eBay Account</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel='stylesheet' href='/stylesheets/homepage.css' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<header><% include ./partials/header %></header>
+	<div class="container"><hr>
+		<div class="row">
+    		<div class="col-md-12">
+      			<h1>Welcome <span><%=userlist[0].firstname%></span></h1>
+      		</div>
+    	</div>
+	</div>
+	<div class="container">
+		<ul class="nav nav-tabs">
+  			<li class="active"><a data-toggle="tab" href="#activity">Activity</a></li>
+  			<li><a data-toggle="tab" href="#messages">Messages</a></li>
+  			<li><a data-toggle="tab" href="#account">Account</a></li>
+		</ul>
+
+		<div class="tab-content">
+  			<div id="activity" class="tab-pane fade in active">
+    			<div class="container">
+    				<div class="col-md-2">
+    					<ul class="nav nav-pills nav-stacked">
+    						<br><li class="active"><a data-toggle="pill" href="#home"> Information</a></li>
+    						<li><a data-toggle="pill" href="#menu1">Addresses</a></li>
+    						<li><a data-toggle="pill" href="#menu2">Communication</a></li>
+    						<li><a data-toggle="pill" href="#menu1">Preferences</a></li>
+    						<li><a data-toggle="pill" href="#menu2">Seller Dashboard</a></li>
+    						<li><a data-toggle="pill" href="#menu1">Feedback</a></li>
+    						<li><a data-toggle="pill" href="#menu2">Paypal Account</a></li>
+  						</ul>
+    				</div>
+    				<div class="col-md-10">
+          				<div class="row">
+        					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        						<br><div class="panel panel-info">
+            						<div class="panel-heading">
+            							<h3 class="panel-title">Add Products</h3>
+            						</div>
+            						<div class="panel-body">
+            							<div class="row">
+                							<div class=" col-md-12 col-lg-12 "> 
+                								<table class="table table-user-information">
+                    								<tbody>
+                    									<tr>
+                        									<td>ADD PRODUCT</td>
+                        									<td align="right"><button><a href = "/saveproduct"> Add Product</a></button></td>
+                    									</tr>
+                    									<tr>
+                        									<td>ADD PRODUCT FOR BIDDING</td>
+                        									<td align="right"><button><a href = "/savebidproduct"> Add Product</a></button></td>
+                    									</tr>
+							                    	</tbody>
+	                							</table>
+    	            						</div>
+        	      						</div>
+          							</div>
+          						</div>
+          					</div>
+          					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        						<div class="panel panel-info">
+            						<div class="panel-heading">
+            							<h3 class="panel-title">List Products</h3>
+            						</div>
+            						<div class="panel-body">
+            							<div class="row">
+                							<div class=" col-md-12 col-lg-12 "> 
+                								<table class="table table-user-information">
+                    								<thead>
+     													<tr>
+													        <th>ID</th>
+       														<th>Name</th>
+   														    <th>Description</th>
+													        <th>Price</th>
+													        <th>Quantity</th>
+													        <th width="120px">Action</th>
+													      </tr>
+												    </thead>
+												    <% if(productlist.length){ 
+												          for(var i = 0;i < productlist.length;i++) { %> 
+												    <tbody>
+												      <tr>
+									                    <td><%=productlist[i].productid%></td>
+									                    <td><a href = "/findone/<%=productlist[i].productname%>">
+									                    <%=productlist[i].productname%></td>
+									                    <td><%=productlist[i].productdescription%></td>
+									                    <td>$<%=productlist[i].productprice%></td>
+									                    <td><%=productlist[i].productquantity%></td>
+									                    <td>                      
+									                        <a class="a-inside delete" href="/delete/<%=productlist[i].productname%>">Delete</a>                       
+									                    </td>
+												      </tr>
+												    </tbody>
+												    <% }            
+										            }else{ %>
+										                 <tr>
+										                    <td colspan="3">No Product</td>
+										                 </tr>
+										            <% } %> 
+	                							</table>
+    	            						</div>
+        	      						</div>
+          							</div>
+          						</div>
+          					</div>
+          					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        						<div class="panel panel-info">
+            						<div class="panel-heading">
+            							<h3 class="panel-title">List Bidding Products</h3>
+            						</div>
+            						<div class="panel-body">
+            							<div class="row">
+                							<div class=" col-md-12 col-lg-12 "> 
+                								<table class="table table-user-information">
+                    								<thead>
+     													<tr>
+													        <th>ID</th>
+       														<th>Name</th>
+   														    <th>Description</th>
+													        <th>Highest Bid Value</th>
+													        <th>Sold to</th>
+													        <th width="120px">Action</th>
+													      </tr>
+												    </thead>
+												    <% if(bidlist.length){ 
+												                 for(var i = 0;i < bidlist.length;i++) { %> 
+												    <tbody>
+												      <tr>
+												                    <td><%=bidlist[i].bidproductid%></td>
+												                    <td><a href = "/findone"><%=bidlist[i].bidproductname%></td>
+												                    <td><%=bidlist[i].bidproductdescription%></td>
+												                    <td><%=bidlist[i].productprice%></td>
+												                    <td><%=bidlist[i].productquantity%></td>
+												                    <td>                      
+												                        <a class="a-inside delete" href="/delete2/<%=bidlist[i].bidproductid%>">Delete</a>                       
+												                    </td>
+												      </tr>
+												    </tbody>
+												    <% }            
+										            }else{ %>
+										                 <tr>
+										                    <td colspan="3">No Product</td>
+										                 </tr>
+										            <% } %> 
+	                							</table>
+    	            						</div>
+        	      						</div>
+          							</div>
+          						</div>
+          					</div>
+          					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        						<div class="panel panel-info">
+            						<div class="panel-heading">
+            							<h3 class="panel-title">Purchase History</h3>
+            						</div>
+            						<div class="panel-body">
+            							<div class="row">
+                							<div class=" col-md-12 col-lg-12 "> 
+                								<table class="table table-user-information">
+                    								<thead>
+     													<tr>
+													        <th>ID</th>
+       														<th>Name</th>
+   														    <th>Quantity</th>
+													        <th>Price</th>
+													        <th width="120px">Action</th>
+													      </tr>
+												    </thead>
+												    <% if(list.length){ 
+									                   for(var i = 0;i < list.length;i++) { %> 
+												    <tbody>
+												      <tr>
+									                    <td><%=list[i].itemid%></td>
+									                    <td><a href = "/findone"><%=list[i].itemname%></td>
+									                    <td><%=list[i].itemquantity%></td>
+									                    <td>$<%=list[i].itemprice%></td>
+									                    <td>                      
+									                        <a class="a-inside delete" href="#">Buy Again</a>                       
+									                    </td>
+												      </tr>
+												    </tbody>
+												    <% }            
+										            }else{ %>
+										                 <tr>
+										                    <td colspan="3">No Product</td>
+										                 </tr>
+										            <% } %> 
+	                							</table>
+    	            						</div>
+        	      						</div>
+          							</div>
+          						</div>
+          					</div>
+      					</div>
+    				</div>
+    			</div>
+      		</div>      		
+			<div id="messages" class="tab-pane fade">
+    			<h3>Messages</h3>
+    				<p>Some content in menu 1.</p>
+  			</div>
+  			
+  			
+			<div id="account" class="tab-pane fade">
+    			<div class="container">
+    				<div class="col-md-2">
+    					<ul class="nav nav-pills nav-stacked">
+    						<br><li class="active"><a data-toggle="pill" href="#home">Personal Information</a></li>
+    						<li><a data-toggle="pill" href="#menu1">Addresses</a></li>
+    						<li><a data-toggle="pill" href="#menu2">Communication</a></li>
+    						<li><a data-toggle="pill" href="#menu1">Preferences</a></li>
+    						<li><a data-toggle="pill" href="#menu2">Seller Dashboard</a></li>
+    						<li><a data-toggle="pill" href="#menu1">Feedback</a></li>
+    						<li><a data-toggle="pill" href="#menu2">Paypal Account</a></li>
+  						</ul>
+    				</div>
+    				<div class="col-md-10">
+          				<div class="row">
+      						<div class="col-md-4 toppad  pull-right">
+								<p class=" text-info">Last Login: May 05,2014, 03:00 P.M. </p>
+      						</div>
+        					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        						<div class="panel panel-info">
+            						<div class="panel-heading">
+            							<h3 class="panel-title">Account Information</h3>
+            						</div>
+            						<div class="panel-body">
+            							<div class="row">
+                							<div class=" col-md-12 col-lg-12 "> 
+                								<table class="table table-user-information">
+                    								<tbody>
+                    									<tr>
+                        									<td>First Name:</td>
+                        									<td><%=userlist[0].firstname%></td>
+                        									<td align="right"><a href="#">Edit</a></td>
+                    									</tr>
+                    									<tr>
+                        									<td>Last Name:</td>
+                        									<td><%=userlist[0].lastname%></td>
+                        									<td align="right"><a href="#">Edit</a></td>
+                    									</tr>
+                    									<tr>
+                        									<td>Birthday:</td>
+                        									<td><%=userlist[0].birthday%></td>
+                        									<td align="right"><a href="#">Edit</a></td>
+                    									</tr>
+                    									
+							                    	</tbody>
+	                							</table>
+    	            						</div>
+        	      						</div>
+          							</div>
+          						</div>
+          					</div>
+          					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        						<div class="panel panel-info">
+            						<div class="panel-heading">
+            							<h3 class="panel-title">Contact Information</h3>
+            						</div>
+            						<div class="panel-body">
+            							<div class="row">
+                							<div class=" col-md-12 col-lg-12 "> 
+                								<table class="table table-user-information">
+                    								<tbody>
+                    									<tr>
+                        									<td>Email ID:</td>
+                        									<td><%=userlist[0].email%></td>
+                        									<td align="right"><a href="#">Edit</a></td>
+                    									</tr>
+                    									<tr>
+                        									<td>Address:</td>
+                        									<td><%=userlist[0].address%></td>
+                        									<td align="right"><a href="#">Edit</a></td>
+                    									</tr>
+                    									<tr>
+                        									<td>Mobile NO:</td>
+                        									<td><%=userlist[0].contactno%></td>
+                        									<td align="right"><a href="#">Edit</a></td>
+                    									</tr>
+                    									
+							                    	</tbody>
+	                							</table>
+    	            						</div>
+        	      						</div>
+          							</div>
+          						</div>
+          					</div>
+    					    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">   
+          						<div class="panel panel-info">
+           							<div class="panel-heading">
+              							<h3 class="panel-title">Financial Information</h3>
+            						</div>
+            						<div class="panel-body">
+              							<div class="row">
+                							<div class=" col-md-12 col-lg-12 "> 
+                  								<table class="table table-user-information">
+                    								<tbody>
+                      									<tr>
+                       										<td>Card Number:</td>
+                        									<td>XXXX-XXXX-XXXX-4446</td>
+                        									<td align="right"><a href="#">Edit</a></td>
+                      									</tr>
+                      									<tr>
+                       										<td>Expiring On:</td>
+                        									<td>08/21</td>
+                        									<td align="right"><a href="#">Edit</a></td>
+                      									</tr>
+                    								</tbody>
+								                </table>                  
+                							</div>
+              							</div>
+            						</div>
+        						</div>
+      						</div>
+    					</div>
+    				</div>
+        		</div>
+      		</div>
+    	</div>
+  	</div>
+</body>
+</html>
