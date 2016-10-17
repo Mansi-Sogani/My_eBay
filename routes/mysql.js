@@ -4,19 +4,41 @@ var encryption = require('./encryption');
 var winston = require('winston');
 var sess;
 
+var config= require('./config');
+var poolConfig= config.dbpool;
+var pool =[];
+var db=config.db;
 function getConnection(){
-	var connection = mysql.createConnection({
-		host : 'localhost', //host where mysql server is running
-		user : 'root', //user for the mysql application
-		password : 'root', //password for the mysql application
-		database : 'ebay', //database name
-		port : 3306 //port, it is 3306 by default for mysql
+	var connection= mysql.createConnection({
+	    host     : db.host,
+	    user     : db.user,
+	    password : db.password,
+	    database : db.database,
+	    port	 : db.port
 	});
 	return connection;
 }
 
+exports.createConnectionPool= function createConnectionPool(){
+	for(var i=0; i<poolConfig.maxsize;i++){
+		pool.push(getConnection());
+		//console.log(pool);
+	}
+};
+
+function getConnectionFromPool(){
+	if(pool.length<=0){
+		console.log("Need to empty connection pool!");
+		return null;
+	}
+	else{
+		return pool.pop();
+	}
+}
+
+
 exports.findone=function(req, res){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	winston.log('info', " "+req.session.email+" clicked on item "+req.params.productname);
 	connection.query('select * from product_to_sell where productname="'+req.params.productname+'"', function(err, rows){
 	console.log(rows[0].productid);
@@ -24,13 +46,14 @@ exports.findone=function(req, res){
 	var data = {product:rows};
 	console.log(JSON.stringify(data));
 	res.render('product', data);
+	pool.pushConnection();
 	}); 
 };
 
 exports.addproducttocart=function(req, res){
 	sess=req.session;
 	if (sess.email){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	console.log("hi" + JSON.stringify(req.body));
 	var email = req.session.email;
 	var productid = req.body.productid;
@@ -47,9 +70,11 @@ exports.addproducttocart=function(req, res){
 				};
 	connection.query("insert into cart set ?", data, function (err){
 		if(err){
+			pool.pushConnection();
 			console.log("Error in adding data");
 		}
 		else{
+			pool.pushConnection();
 			console.log(data);
 			winston.log('info', " "+req.session.email+" added "+JSON.stringify(req.params.productname)+"item to sell");
 			res.redirect('back');
@@ -58,6 +83,7 @@ exports.addproducttocart=function(req, res){
 	});
 	}
 	else{
+		pool.pushConnection();
 		res.redirect("/login");
 	}
 };	
@@ -65,7 +91,7 @@ exports.addproducttocart=function(req, res){
 exports.profile= function(req, res){
 	sess=req.session;
 	if (sess.email){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	winston.log('info', ''+req.session.email +' viewed profile');
 	connection.query('select * from userinfo where email = "'+ req.session.email +'"', function(err, rows1){
 		connection.query('select * from product_to_sell where email = "'+ req.session.email +'"', function(err, rows2){
@@ -79,6 +105,7 @@ exports.profile= function(req, res){
 					console.log(data3);
 					var data4 = {list: rows4};
 					console.log(data4);
+					pool.pushConnection();
 					res.render('profile', {bidlist: rows3, productlist: rows2, userlist: rows1, list: rows4 });
 			});
 		});
@@ -91,11 +118,12 @@ exports.profile= function(req, res){
 };
 
 exports.getcartdata= function(req,res){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 		winston.log('info',''+ req.session.email +' viewed cart page');
 		connection.query('select * from cart where email = "'+ req.session.email +'"', function(err, rows){
 		var data={userlist:rows};
 		console.log("From cart:" +JSON.stringify(data));
+		pool.pushConnection();
 		res.send(data);
 	});
 };
@@ -112,8 +140,10 @@ exports.deletebidproduct = function(req,res){
        connection.query("DELETE FROM bidding_product_to_sell WHERE bidproductid = '"+req.params.bidproductid+"' and email= '"+req.session.email+"'", function(err, rows)
        {
             if(err){
+            	pool.pushConnection();
                 console.log("Error deleting : %s ",err );
             }
+            pool.pushConnection();
             res.redirect('/profile');
             winston.log('info',''+ req.session.email +' deleted '+req.params.bidproductid+' from bid products');
        });
@@ -132,12 +162,14 @@ exports.deleteproductfromcart = function(req,res){
     console.log(req.params.itemid);
     console.log(req.session.email);
     winston.log('info',''+ req.session.email +' deleted '+JSON.stringify(req.params.itemid)+' from cart');
-    var connection =getConnection();
+    var connection =getConnectionFromPool();
        connection.query("DELETE FROM cart WHERE itemid = '"+req.params.itemid+"' and email= '"+req.session.email+"'", function(err, rows)
        {
             if(err){
+            	pool.pushConnection();
                 console.log("Error deleting : %s ",err );
             }
+            pool.pushConnection();
             res.render('homepage');
        });
 	}
@@ -148,7 +180,7 @@ exports.deleteproductfromcart = function(req,res){
 
 exports.checkoutdata = function(req,res){
 	console.log("this is the cart data from proceed to checkout"+ JSON.stringify(req.body.cartdata));
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	var cartdata = req.body.cartdata;
 	connection.query('delete from cart where email="' + req.session.email +'"');
 	for(var i=0;i<cartdata.length;i++){
@@ -164,13 +196,14 @@ exports.checkoutdata = function(req,res){
 		winston.log('info',''+ req.session.email +' checked out '+JSON.stringify(req.params.itemid)+' item');
 		console.log("checking the variables of data:---" + JSON.stringify(data));
 		connection.query("insert into cart set ?", data);
+		pool.pushConnection();
 		console.log("i m rendering checkout");
 	}
 	res.send("hi");
 };
 
 exports.checkoutdisplay=function(req,res){
-	var connection= getConnection();
+	var connection= getConnectionFromPool();
 	console.log("i m in node checkoutdispay");
 	winston.log('info',''+ req.session.email +' checking out items');
 	connection.query('select * from cart where email="'+ req.session.email+'"',function(error,rows1){
@@ -182,6 +215,7 @@ exports.checkoutdisplay=function(req,res){
 			console.log(data2);
 			var data={itemlist:rows1,user:rows2};
 			res.send(data);
+			pool.pushConnection();
 		});
 	});
 };
@@ -191,7 +225,7 @@ exports.checkout= function(req,res){
 };
 
 exports.complete = function(req,res){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 		connection.query('select * from cart where email = "'+ req.session.email +'"',function(err,rows){
 			console.log("This is current cart status" + JSON.stringify(rows));
 			for(var i=0;i<rows.length;i++){
@@ -203,6 +237,7 @@ exports.complete = function(req,res){
 					itemprice:rows[i].itemprice
 				};
 				connection.query('insert into purchasehistory set ?',data);
+				pool.pushConnection();
 				var query = 'update product_to_sell set productquantity =' +
 				'greatest(0,productquantity-' + rows[i].quantityneeded+') where '+
 				'productid="'+rows[i].itemid+'"';
@@ -213,6 +248,7 @@ exports.complete = function(req,res){
 			}
 			connection.query('delete * from cart where email = "'+ req.session.email +'"', function(err, rows){
 				if(err){
+					pool.pushConnection();
 					console.log("error in deletion from cart after checkout");
 				}
 			});
@@ -222,17 +258,18 @@ exports.complete = function(req,res){
 
 exports.loadcarddetails=function(req,res){
 	console.log("i m in load card details mysql file");
-	var connection= getConnection();
+	var connection= getConnectionFromPool();
 	var data;
 	winston.log('info',' card details loaded of '+req.session.email+'');
 	connection.query("select * from creditcard where email='" + req.session.email +"'", function(error, rows){
 		if(rows.length>0){
-			
+			pool.pushConnection();
 			data={card:rows};
 			console.log(data);
 			res.send(data);
 		}
 		else{
+			pool.pushConnection();
 			data="Enter credit card details";
 			res.send(data);
 		}	
@@ -256,9 +293,10 @@ exports.addcarddetails= function(req,res){
 		date:date,
 		cvv:cvv
 	};
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 		if(value1 && value2 && value3){
 		connection.query('insert into creditcard set ?',data1);
+		pool.pushConnection();
 		console.log(data1);	
 		res.send({msg:"successful"});
 		}
@@ -272,9 +310,10 @@ exports.addcarddetails= function(req,res){
 exports.cart=function(req, res){
 	sess=req.session;
 	if (sess.email){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	var itemid = req.params.itemid;
 	connection.query('select * from cart where email = "'+ req.session.email +'"', function(err, rows){
+		pool.pushConnection();
 		var data = {userlist: rows};
 		console.log(JSON.stringify(data));
 		res.render('cart', data);
@@ -288,9 +327,10 @@ exports.cart=function(req, res){
 exports.findall= function(req, res){
 	sess=req.session;
 	if (sess.email){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	winston.log('info', ''+req.session.email+'viewed all the items');
 	connection.query('select * from product_to_sell where email = "'+ req.session.email +'"', function(err, rows){
+		pool.pushConnection();
 		var data = {productlist: rows};
 		console.log(JSON.stringify(data));
 		res.render('table', data);
@@ -302,9 +342,10 @@ exports.findall= function(req, res){
 };
 
 exports.womenfashion=function(req, res){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	winston.log('info', ''+req.session.email+'viewed women clothing');
 	connection.query('select * from product_to_sell where category = "Women Fashion" AND email <> "'+req.session.email+'"', function(err, rows){
+		pool.pushConnection();
 		var data = {productlist: rows};
 		console.log(JSON.stringify(data));
 		res.render('womenfashion', data);
@@ -312,9 +353,10 @@ exports.womenfashion=function(req, res){
 };
 
 exports.electronicauction=function electronicauction(req, res){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	winston.log('info', ''+req.session.email+'viewed Bidding Products');
 	connection.query('select *,DATE_ADD(biddateposted,INTERVAL 4 DAY) AS BidCloses from bidding_product_to_sell where bidcategory = "Electronics" AND email <> "'+req.session.email+'"', function(err, rows){
+		pool.pushConnection();
 		var data = {productlist: rows};
 		winston.log('info','ho gaya'+JSON.stringify(data));
 		console.log("maayaaa"+JSON.stringify(data));
@@ -325,7 +367,7 @@ exports.electronicauction=function electronicauction(req, res){
 exports.postbid=function(req, res){
 	var sess=req.session;
 	if(sess.email){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	console.log("hi" + JSON.stringify(req.body));
 	var email = req.session.email;
 	var bidvalue = req.body.bidvalue;
@@ -335,7 +377,8 @@ exports.postbid=function(req, res){
 				};
 	winston.log('info', ''+req.session.email+'bids for the product'+JSON.stringify(req.body.bidproductid)+'');
 	connection.query('select bidvalue from bidding_product_to_sell where bidproductid ="'+ req.body.bidproductid+'"', function(err, rows){
-		var value={values:rows};
+	pool.pushConnection();
+	var value={values:rows};
 	console.log("value " +JSON.stringify(value.values[0].bidvalue));
 	if(req.body.bidvalue > value.values[0].bidvalue){
 		console.log("aaya idhar");
@@ -357,12 +400,14 @@ exports.postbid=function(req, res){
 };
 
 exports.fetchdata=function(callback,sqlQuery){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	connection.query(sqlQuery, function(err, rows, fields) {
 		if(err){
 			console.log("ERROR: ", err.message);
+			pool.pushConnection();
 		}
 		else{
+			pool.pushConnection();
 			console.log("DB Results:", rows);
 			callback(err, rows);
 		}
@@ -372,7 +417,7 @@ exports.fetchdata=function(callback,sqlQuery){
 };
 
 exports.insert=function(req, res){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	console.log("hi" + JSON.stringify(req.body));
 	var password = req.body.password;
 	var encrypted_password = encryption.encrypt(password);
@@ -389,9 +434,11 @@ exports.insert=function(req, res){
     	winston.log('info','ho gaya'+JSON.stringify(data));
 		if(!err){
 			req.session.firstname=data.firstname;  //for displaying hi "name" on homepage
+			pool.pushConnection();
 			res.send({status:200, firstname: req.session.firstname});
 		}
 		else{
+			pool.pushConnection();
 			res.send({status:400});
 		}
 	});
@@ -401,12 +448,14 @@ exports.deleteproduct = function(req,res){
 	var sess= req.session;
 	if(sess.email){
     var productname = req.params.productname; 
-    var connection =getConnection();
+    var connection =getConnectionFromPool();
        connection.query("DELETE FROM product_to_sell  WHERE productname = ? ",[productname], function(err, rows)
        {
             if(err){
                 console.log("Error deleting : %s ",err );
+                pool.pushConnection();
             }
+            pool.pushConnection();
             res.redirect('back');
        });
 	}
@@ -418,11 +467,12 @@ exports.deleteproduct = function(req,res){
 exports.save=function(req, res){
 	var sess= req.session;
 	if(sess.email){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	console.log("hi mansi hello" +req.session.email);
 	var data = {email: req.session.email ,productid: req.body.productid, productname: req.body.productname, productdescription: req.body.productdescription, productprice: req.body.productprice, productquantity: req.body.productquantity, category: req.body.category};
 	console.log(data);
 	connection.query('insert into product_to_sell set ?', data);
+	pool.pushConnection();
 	res.redirect('profile');
 	}
 	else{
@@ -433,12 +483,13 @@ exports.save=function(req, res){
 exports.savebid=function(req, res){
 	var sess= req.session;
 	if(sess.email){
-	var connection=getConnection();
+	var connection=getConnectionFromPool();
 	console.log("hi mansi hello" +req.session.email);
 	var data = {email: req.session.email ,bidproductid: req.body.productid, bidproductname: req.body.productname, bidproductdescription: req.body.productdescription, bidproductprice: req.body.productprice, bidtakenby: req.session.email, bidcategory: req.body.category};
 	console.log(data);
 	var hi= JSON.stringify(req.body.productid);
 	connection.query('insert into bidding_product_to_sell set ?', data);
+	pool.pushConnection();
 	res.redirect('profile');
 	}
 	else{
